@@ -1,0 +1,62 @@
+
+body {
+    background-color: #f8f9fa;
+  }
+  
+
+/* CSS for The Travel Plan Form */
+
+
+.travel-days-input-group {
+  display: flex; 
+  border: 1px solid #ced4da; 
+  border-radius: 5px; 
+  overflow: hidden;
+}
+
+.travel-days-input-group .btn {
+  border: none; 
+  background-color: transparent; 
+  padding: 0.5rem 1rem; 
+  cursor: pointer; 
+  color: #495057; 
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+}
+
+.travel-days-input-group .btn:hover {
+  background-color: #f0f0f0; 
+}
+
+.travel-days-input-group .btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.travel-days-input-group input[type="number"] {
+  border: none; 
+  text-align: center;
+  flex-grow: 1;
+  padding: 0.5rem; 
+  box-shadow: none; 
+}
+
+.travel-days-input-group input[type="number"]::-webkit-inner-spin-button,
+.travel-days-input-group input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.travel-days-input-group input[type=number] {
+  -moz-appearance: textfield; 
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 0.5rem; 
+}
+
+.form-control {
+  margin-bottom: 1rem;
+}

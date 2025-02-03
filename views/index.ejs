@@ -1,0 +1,110 @@
+<%- include('partials/header'); %>
+<%- include('partials/navbar'); %>
+
+<div class="container my-5">
+  <% if (messages.error) { %>
+    <div class="alert alert-danger"><%= messages.error %></div>
+  <% } %>
+  <% if (messages.success) { %>
+    <div class="alert alert-success"><%= messages.success %></div>
+  <% } %>
+
+  <h1 class="text-center mb-4">Plan Your Next Adventure</h1>
+
+  <form action="/search" method="GET" class="needs-validation" novalidate>
+
+    <div class="row justify-content-center">  
+      <div class="col-md-8"> 
+
+        <div class="form-group">
+          <label for="origin">Origin</label>
+          <input type="text" class="form-control" id="origin" name="origin" placeholder="e.g., JFK" required>
+          <div class="invalid-feedback">Please provide a valid origin.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="destination">Destination</label>
+          <input type="text" class="form-control" id="destination" name="destination" placeholder="e.g., LAX" required>
+          <div class="invalid-feedback">Please provide a valid destination.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="departureDate">Departure Date</label>
+          <input type="date" class="form-control" id="departureDate" name="departureDate"  required>
+          <div class="invalid-feedback">Please provide a departure date.</div>
+        </div>
+        <div class="form-group">
+          <label for="travelDays">How many days are you planning to travel?</label>
+          <div class="input-group travel-days-input-group">
+            <button class="btn btn-outline-secondary" type="button" id="decrementDays">-</button>
+            <input type="number" class="form-control" id="travelDays" name="travelDays" value="1" min="1" max="30">
+            <button class="btn btn-outline-secondary" type="button" id="incrementDays">+</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="budget">What is your budget for the trip?</label>
+          <select class="form-control" id="budget" name="budget">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="travelCompanion">Who do you plan on traveling with on your next adventure?</label>
+          <select class="form-control" id="travelCompanion" name="travelCompanion">
+            <option value="solo">Solo</option>
+            <option value="couple">Couple</option>
+            <option value="family">Family</option>
+            <option value="friends">Friends</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="activities">Which activities are you interested in?</label>
+          <div> 
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="beaches" name="activities[]" value="beaches">
+              <label class="form-check-label" for="beaches">Beaches</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="citySightseeing" name="activities[]" value="citySightseeing">
+              <label class="form-check-label" for="citySightseeing">City Sightseeing</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="outdoorAdventure" name="activities[]" value="outdoorAdventure">
+              <label class="form-check-label" for="outdoorAdventure">Outdoor Adventure</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="festivalEvents" name="activities[]" value="festivalEvents">
+              <label class="form-check-label" for="festivalEvents">Festival/Events</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="foodExploration" name="activities[]" value="foodExploration">
+              <label class="form-check-label" for="foodExploration">Food Exploration</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="nightlife" name="activities[]" value="nightlife">
+              <label class="form-check-label" for="nightlife">Nightlife</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="shopping" name="activities[]" value="shopping">
+              <label class="form-check-label" for="shopping">Shopping</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="spaWellness" name="activities[]" value="spaWellness">
+              <label class="form-check-label" for="spaWellness">Spa & Wellness</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center"> 
+          <button class="btn btn-primary btn-md" type="submit">Plan Trip</button>
+        </div>
+
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<%- include('partials/footer'); %>
