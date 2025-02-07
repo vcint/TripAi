@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Plan</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Your Trip Plan</h1>
+        
+
+        <h2 class="text-center mt-5">Flight Offers</h2>
+        <div class="row mt-3">
+            <% if (flightOffers.length > 0) { %>
+                <% flightOffers.forEach(flight => { %>
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Airline: <%= flight.validatingAirlineCodes[0] %></h5>
+                                <p class="card-text">
+                                    <strong>Flight:</strong> <%= flight.itineraries[0].segments[0].carrierCode %>-<%= flight.itineraries[0].segments[0].number %> <br>
+                                    <strong>Departure:</strong> <%= flight.itineraries[0].segments[0].departure.at %> <br>
+                                    <strong>Arrival:</strong> <%= flight.itineraries[0].segments[0].arrival.at %> <br>
+                                    <strong>Price:</strong> <%= flight.price.total %> INR
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+                <a href="<%=  %>" class="btn btn-primary" target="_blank">Book on Google Flights</a>
+            <% } else { %>
+                <p class="text-center">No flight offers found.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
