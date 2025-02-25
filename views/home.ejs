@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Trip Planner | Discover Your Next Adventure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap 5 CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- (Optional) Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+  />
+  <style>
+    /* Global reset & fonts */
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      padding: 4rem 1rem 3rem;
+      text-align: center;
+      background: #f9f9f9;
+      background-image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Air_India.svg/2560px-Air_India.svg.png';
+    }
+    .hero-section .hero-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .hero-section .hero-subtitle {
+      font-size: 1.125rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+    .btn-cta {
+      background-color: #ff6b6b;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      transition: background-color 0.3s;
+    }
+    .btn-cta:hover {
+      background-color: #ff4757;
+    }
+
+    /* Features Section */
+    .features-section {
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    .features-section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .features-section p.lead {
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      color: #555;
+    }
+    .feature-card {
+      background: #fff;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      padding: 2rem;
+      transition: transform 0.3s;
+      height: 100%;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      color: #ff6b6b;
+      margin-bottom: 1rem;
+    }
+    .feature-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Testimonials */
+    .testimonials-section {
+      padding: 3rem 1rem;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+    .testimonials-section h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+    .testimonial-box {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .testimonial-box strong {
+      display: block;
+      margin-top: 1rem;
+      color: #333;
+    }
+
+    /* Partners */
+    .partners-section {
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    .partners-section h4 {
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+    .partner-logo {
+      max-width: 100px;
+      margin: 1rem;
+    }
+
+    /* Inspirations */
+    .inspiration-section {
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    .inspiration-section h3 {
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .inspiration-section p {
+      color: #666;
+      margin-bottom: 2rem;
+    }
+    .inspiration-img {
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    /* Final CTA / Curated Itineraries */
+    .curated-section {
+      padding: 3rem 1rem;
+      background: #fff;
+      text-align: center;
+    }
+    .curated-section h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .curated-section p {
+      color: #555;
+      margin-bottom: 2rem;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 2rem 1rem;
+      text-align: center;
+      background: #333;
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+    <% include('partials/header'); %>
+    <%- include('partials/navbar'); %>
+
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="hero-title">Your Next Journey, Elevated</h1>
+      <p class="hero-subtitle">
+        Experience personalized itineraries, curated flight deals, and budget-friendly recommendations—all powered by AI.
+      </p>
+      <a href="/trip" class="btn btn-cta">Plan My Trip</a>
+    </div>
+  </section>
+
+  <section class="features-section">
+    <div class="container">
+      <h2>Why Choose Our AI Trip Planner?</h2>
+      <p class="lead">
+        We combine advanced data analysis with travel expertise to create the perfect getaway for every traveler.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-geo-alt"></i>
+            </div>
+            <div class="feature-title">Discover Hidden Gems</div>
+            <p>Our AI sifts through local guides and traveler tips to reveal must-see places beyond the tourist hotspots.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-alarm"></i>
+            </div>
+            <div class="feature-title">Time-Saving Schedules</div>
+            <p>Maximize every minute of your trip with smart route planning and quick access to tickets or reservations.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-currency-dollar"></i>
+            </div>
+            <div class="feature-title">Budget-Minded Solutions</div>
+            <p>Our system factors in your budget to suggest cost-effective flights, stays, and local experiences.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials-section">
+    <div class="container">
+      <h3>What Travelers Are Saying</h3>
+      <div class="row g-4 mt-4">
+        <div class="col-md-4">
+          <div class="testimonial-box">
+            <p>“I saved so much time! The AI suggestions were spot on, and I loved discovering unique restaurants I wouldn’t have found otherwise.”</p>
+            <strong>— Alex D.</strong>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-box">
+            <p>“Traveling with a tight schedule was stressful, but the planner mapped out each day perfectly. Highly recommended!”</p>
+            <strong>— Maria L.</strong>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-box">
+            <p>“As a solo traveler, it was amazing to have everything in one place—no more juggling dozens of apps!”</p>
+            <strong>— Ben T.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <section class="partners-section">
+    <div class="container">
+      <h4>Our Trusted Partners</h4>
+      <div class="d-flex flex-wrap justify-content-center align-items-center mt-4">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/45/IRCTC_Logo.svg/1200px-IRCTC_Logo.svg.png" alt="Partner 1" class="partner-logo" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Booking.com_Logo.svg/2560px-Booking.com_Logo.svg.png" alt="Partner 2" class="partner-logo" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Google_Travel_logo.svg" alt="Partner 3" class="partner-logo" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/Makemytrip_logo.svg" alt="Partner 4" class="partner-logo" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Air_India.svg/2560px-Air_India.svg.png " alt="Partner 5" class="partner-logo" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Inspiration -->
+  <section class="inspiration-section">
+    <div class="container">
+      <h3>Journey Inspirations</h3>
+      <p>Get inspired by real-life travel stories and breathtaking destinations shared by our community.</p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <img src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2023/12/27/5c47137b8b32bdc3702a6c0b4b2359e9_1000x1000.jpg" alt="Inspiration 1" class="inspiration-img" />
+        </div>
+        <div class="col-md-4">
+          <img src="https://res.cloudinary.com/sunleisure-world/image/upload/v1607148473/sunleisureworld/travel-guide/2021-05-20things14-08-34.jpg" alt="Inspiration 2" class="inspiration-img" />
+        </div>
+        <div class="col-md-4">
+          <img src="https://manalitourism.co.in/images/stories/best-time-to-visit-manali/manali-weather-in-winter-best-time-to-visit-manali.jpg" alt="Inspiration 3" class="inspiration-img" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Curated Itineraries -->
+  <section class="curated-section">
+    <div class="container">
+      <h2>Curated Itineraries for Every Kind of Traveler</h2>
+      <p>From budget backpackers to luxury explorers, our AI crafts the perfect trip just for you.</p>
+      <a href="/plantrip" class="btn btn-cta">Start Planning</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="mb-0">
+        &copy; <%= new Date().getFullYear() %> AI Trip Planner. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

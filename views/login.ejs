@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login / Sign Up</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <!-- Bootstrap Bundle JS (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      /* Gradient background and centering */
+      body {
+        background: linear-gradient(135deg, #ff7e5f, #feb47b);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+      }
+      /* Auth container styling (card look) */
+      .auth-container {
+        background: #fff;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+      }
+      /* Custom nav tabs */
+      .nav-tabs .nav-link {
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: #ea9f3d;
+        font-weight: 600;
+      }
+      .nav-tabs .nav-link.active {
+        border-bottom: 2px solid #dc9d38;
+        color: #d5a22a;
+      }
+      /* Rounded, padded inputs */
+      .form-control {
+        border-radius: 50px;
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+      }
+      /* Custom button styling */
+      .btn-custom {
+        background: #e5bb60;
+        color: #fff;
+        border-radius: 50px;
+        padding: 10px 20px;
+        font-weight: 600;
+        width: 100%;
+        border: none;
+      }
+      .btn-custom:hover {
+        background: #cda779;
+      }
+      /* Toast container styling */
+      #toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1055;
+      }
+    </style>
+    <script>
+      // Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyBQJmaE3Dg86tOX4wGIxJ4oBOUBbVyzleI",
+        authDomain: "tripai-4dec0.firebaseapp.com",
+        projectId: "tripai-4dec0",
+        storageBucket: "tripai-4dec0.firebasestorage.app",
+        messagingSenderId: "566506076431",
+        appId: "1:566506076431:web:6c8d845668cf08965fa67a",
+        measurementId: "G-HJ19MJJCMP",
+      };
+      
+      const app = firebase.initializeApp(firebaseConfig);
+
+      // Function to show toast notifications using Bootstrap Toasts
+      function showToast(message, type) {
+        const toastId = "toast-" + Date.now();
+        let bgClass = "bg-secondary";
+        if (type === "success") {
+          bgClass = "bg-success";
+        } else if (type === "error") {
+          bgClass = "bg-danger";
+        }
+        const toastHtml = `
+          <div id="${toastId}" class="toast ${bgClass} text-white" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body">
+                ${message}
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+        `;
+        const container = document.getElementById("toast-container");
+        container.insertAdjacentHTML("beforeend", toastHtml);
+        const toastElement = document.getElementById(toastId);
+        const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+        toast.show();
+        toastElement.addEventListener("hidden.bs.toast", () => {
+          toastElement.remove();
+        });
+      }
+
+      // ----- Sign In (Email/Password) -----
+      function signIn() {
+        var email = document.getElementById("signin-email").value;
+        var password = document.getElementById("signin-password").value;
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            return userCredential.user.getIdToken();
+          })
+          .then((idToken) => {
+            return fetch("/sessionLogin", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ idToken: idToken }),
+            });
+          })
+          .then((response) => {
+            if (response.ok) {
+              showToast("Login successful!", "success");
+              setTimeout(() => {
+                window.location.assign("/trip");
+              }, 1500);
+            } else {
+              showToast("Session login failed.", "error");
+            }
+          })
+          .catch((error) => {
+            console.error("Error during sign-in:", error);
+            showToast("Error during sign-in: " + error.message, "error");
+          });
+      }
+
+      // ----- Sign Up (Create Account) -----
+      function signUp() {
+        var email = document.getElementById("signup-email").value;
+        var password = document.getElementById("signup-password").value;
+        var confirmPassword = document.getElementById("signup-confirm-password").value;
+        if (password !== confirmPassword) {
+          showToast("Passwords do not match", "error");
+          return;
+        }
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            return userCredential.user.getIdToken();
+          })
+          .then((idToken) => {
+            return fetch("/sessionLogin", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ idToken: idToken }),
+            });
+          })
+          .then((response) => {
+            if (response.ok) {
+              showToast("Sign up successful!", "success");
+              setTimeout(() => {
+                window.location.assign("/");
+              }, 1500);
+            } else {
+              showToast("Session creation failed.", "error");
+            }
+          })
+          .catch((error) => {
+            console.error("Error during sign-up:", error);
+            showToast("Error during sign-up: " + error.message, "error");
+          });
+      }
+
+      // ----- Google Sign In -----
+      function googleSignIn() {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase
+          .auth()
+          .signInWithPopup(provider)
+          .then((result) => {
+            return result.user.getIdToken();
+          })
+          .then((idToken) => {
+            return fetch("/sessionLogin", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ idToken: idToken }),
+            });
+          })
+          .then((response) => {
+            if (response.ok) {
+              showToast("Login with Google successful!", "success");
+              setTimeout(() => {
+                window.location.assign("/");
+              }, 1500);
+            } else {
+              showToast("Session login failed.", "error");
+            }
+          })
+          .catch((error) => {
+            console.error("Error during Google sign-in:", error);
+            showToast("Error during Google sign-in: " + error.message, "error");
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="auth-container">
+      <h2 class="text-center mb-4">Welcome to TripAI</h2>
+      <ul class="nav nav-tabs mb-3" id="authTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="login-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#login"
+            type="button"
+            role="tab"
+            aria-controls="login"
+            aria-selected="true"
+          >
+            Login
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="signup-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#signup"
+            type="button"
+            role="tab"
+            aria-controls="signup"
+            aria-selected="false"
+          >
+            Sign Up
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content" id="authTabContent">
+        <!-- Login Form -->
+        <div
+          class="tab-pane fade show active"
+          id="login"
+          role="tabpanel"
+          aria-labelledby="login-tab"
+        >
+          <div class="mb-3">
+            <input
+              id="signin-email"
+              type="email"
+              class="form-control"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              id="signin-password"
+              type="password"
+              class="form-control"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <button class="btn btn-custom" onclick="signIn()">Sign In</button>
+        </div>
+        <!-- Sign Up Form -->
+        <div
+          class="tab-pane fade"
+          id="signup"
+          role="tabpanel"
+          aria-labelledby="signup-tab"
+        >
+          <div class="mb-3">
+            <input
+              id="signup-email"
+              type="email"
+              class="form-control"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              id="signup-password"
+              type="password"
+              class="form-control"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              id="signup-confirm-password"
+              type="password"
+              class="form-control"
+              placeholder="Confirm Password"
+              required
+            />
+          </div>
+          <button class="btn btn-custom" onclick="signUp()">Sign Up</button>
+        </div>
+      </div>
+      <hr />
+      <!-- Google Sign In -->
+      <div class="text-center">
+        <p>or sign in with</p>
+        <button class="btn btn-outline-secondary" onclick="googleSignIn()">
+          <img
+            src="https://img.icons8.com/color/16/000000/google-logo.png"
+            alt="Google Logo"
+            class="me-2"
+          />
+          Google
+        </button>
+      </div>
+    </div>
+    <!-- Toast Container -->
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>

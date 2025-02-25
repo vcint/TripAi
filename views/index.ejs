@@ -1,7 +1,75 @@
 <%- include('partials/header'); %>
 <%- include('partials/navbar'); %>
 
-<div class="container my-5">
+<style>
+  /* Warm gradient background */
+  body {
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 2rem;
+  }
+  /* Main container styled as a modern card */
+  .main-container {
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    max-width: 800px;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  /* Headings styling */
+  h1 {
+    color: #d35400;  /* Dark orange */
+    font-weight: bold;
+  }
+  /* Form labels */
+  .form-group label {
+    font-weight: 600;
+    color: #333;
+  }
+  /* Modern rounded inputs */
+  .form-control {
+    border-radius: 50px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+  }
+  /* Updated select styling to reduce congestion */
+  select.form-control {
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    height: auto;  /* Override any fixed height issues */
+  }
+  /* Custom button style matching new aesthetics */
+  .btn-custom {
+    background: #d35400; /* Dark orange */
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: background 0.3s;
+  }
+  .btn-custom:hover {
+    background: #e67e22;
+  }
+  /* Style for input group buttons */
+  .btn-outline-secondary {
+    border-radius: 50px;
+  }
+  /* Adjust spacing for the container inside the form */
+  .needs-validation .form-group {
+    margin-bottom: 1.5rem;
+  }
+</style>
+
+<div class="main-container">
   <% if (messages.error) { %>
     <div class="alert alert-danger"><%= messages.error %></div>
   <% } %>
@@ -12,10 +80,8 @@
   <h1 class="text-center mb-4">Plan Your Next Adventure</h1>
 
   <form action="/plantrip" method="POST" class="needs-validation" novalidate>
-
     <div class="row justify-content-center">  
-      <div class="col-md-8"> 
-
+      <div class="col-md-10"> 
         <div class="form-group">
           <label for="origin">Origin</label>
           <input type="text" class="form-control" id="origin" name="origin" placeholder="e.g., JFK" required>
@@ -30,9 +96,10 @@
 
         <div class="form-group">
           <label for="departureDate">Departure Date</label>
-          <input type="date" class="form-control" id="departureDate" name="departureDate"  required>
+          <input type="date" class="form-control" id="departureDate" name="departureDate" required>
           <div class="invalid-feedback">Please provide a departure date.</div>
         </div>
+
         <div class="form-group">
           <label for="travelDays">How many days are you planning to travel?</label>
           <div class="input-group travel-days-input-group">
@@ -41,6 +108,7 @@
             <button class="btn btn-outline-secondary" type="button" id="incrementDays">+</button>
           </div>
         </div>
+
         <div class="form-group">
           <label for="budget">What is your budget for the trip?</label>
           <select class="form-control" id="budget" name="budget">
@@ -49,6 +117,7 @@
             <option value="high">High</option>
           </select>
         </div>
+
         <div class="form-group">
           <label for="travelCompanion">Who do you plan on traveling with on your next adventure?</label>
           <select class="form-control" id="travelCompanion" name="travelCompanion">
@@ -97,13 +166,11 @@
           </div>
         </div>
 
-        <div class="text-center"> 
-          <button class="btn btn-primary btn-md" type="submit">Plan Trip</button>
+        <div class="text-center mt-4"> 
+          <button class="btn btn-custom" type="submit">Plan Trip</button>
         </div>
-
       </div>
     </div>
-
   </form>
 </div>
 
