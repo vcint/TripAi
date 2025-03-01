@@ -13,9 +13,13 @@
     "nodemon": "^3.1.9"
   },
   "dependencies": {
+    "@cashfreepayments/cashfree-sdk": "^0.1.7",
     "@huggingface/inference": "^3.1.5",
     "amadeus": "^11.0.0",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "cashfree-pg": "^4.3.10",
+    "cashfree-pg-sdk-nodejs": "^2.0.2",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
@@ -28,6 +32,7 @@
     "flash": "^1.1.0",
     "node-cache": "^5.1.2",
     "path": "^0.12.7",
+    "puppeteer": "^24.3.0",
     "replicate": "^1.0.1",
     "session": "^0.1.0"
   }
