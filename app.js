@@ -34,7 +34,7 @@ const replicateClient = new replicate({
 // Initialize Cashfree
 Cashfree.XClientId = process.env.CASHFREE_APP_ID;
 Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
+Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
 
 //EJS view engine
 app.set("view engine", "ejs");
@@ -95,7 +95,7 @@ app.post("/sessionLogin", (req, res) => {
     .auth()
     .createSessionCookie(idToken, { expiresIn })
     .then((sessionCookie) => {
-      const options = { maxAge: expiresIn, httpOnly: true, secure: true };
+      const options = { maxAge: expiresIn, httpOnly: true, secure: false };
       res.cookie("session", sessionCookie, options);
       res.status(200).json({ status: "success" });
     })
