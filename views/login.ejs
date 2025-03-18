@@ -11,10 +11,9 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <!-- Bootstrap Bundle JS (includes Popper) -->
+    <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-      /* Gradient background and centering */
       body {
         background: linear-gradient(135deg, #ff7e5f, #feb47b);
         min-height: 100vh;
@@ -24,7 +23,6 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
       }
-      /* Auth container styling (card look) */
       .auth-container {
         background: #fff;
         border-radius: 10px;
@@ -33,7 +31,6 @@
         width: 100%;
         max-width: 400px;
       }
-      /* Custom nav tabs */
       .nav-tabs .nav-link {
         border: none;
         border-bottom: 2px solid transparent;
@@ -44,14 +41,12 @@
         border-bottom: 2px solid #dc9d38;
         color: #d5a22a;
       }
-      /* Rounded, padded inputs */
       .form-control {
         border-radius: 50px;
         padding: 15px 20px;
         margin-bottom: 15px;
         border: 1px solid #ddd;
       }
-      /* Custom button styling */
       .btn-custom {
         background: #e5bb60;
         color: #fff;
@@ -64,7 +59,6 @@
       .btn-custom:hover {
         background: #cda779;
       }
-      /* Toast container styling */
       #toast-container {
         position: fixed;
         top: 20px;
@@ -86,7 +80,6 @@
       
       const app = firebase.initializeApp(firebaseConfig);
 
-      // Function to show toast notifications using Bootstrap Toasts
       function showToast(message, type) {
         const toastId = "toast-" + Date.now();
         let bgClass = "bg-secondary";
@@ -115,7 +108,7 @@
         });
       }
 
-      // ----- Sign In (Email/Password) -----
+      // Sign In (Email/Password)
       function signIn() {
         var email = document.getElementById("signin-email").value;
         var password = document.getElementById("signin-password").value;
@@ -148,7 +141,7 @@
           });
       }
 
-      // ----- Sign Up (Create Account) -----
+      //Sign Up (Create Account)
       function signUp() {
         var email = document.getElementById("signup-email").value;
         var password = document.getElementById("signup-password").value;
@@ -186,7 +179,7 @@
           });
       }
 
-      // ----- Google Sign In -----
+      //Google Sign In
       function googleSignIn() {
         var provider = new firebase.auth.GoogleAuthProvider();
         firebase
@@ -217,6 +210,67 @@
             showToast("Error during Google sign-in: " + error.message, "error");
           });
       }
+      function githubSignIn() {
+    var provider = new firebase.auth.GithubAuthProvider();
+    firebase.auth()
+      .signInWithPopup(provider)
+      .then((result) => result.user.getIdToken())
+      .then((idToken) => {
+        return fetch("/sessionLogin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken: idToken })
+        });
+      })
+      .then((response) => {
+        if (response.ok) {
+          showToast("GitHub login successful!", "success");
+          setTimeout(() => {
+            window.location.assign("/");
+          }, 1500);
+        } else {
+          showToast("Session login failed.", "error");
+        }
+      })
+      .catch((error) => {
+        console.error("Error during GitHub sign-in:", error);
+        showToast("Error during GitHub sign-in: " + error.message, "error");
+      });
+  }
+  function microsoftSignIn() {
+    var provider = new firebase.auth.OAuthProvider('microsoft.com');
+    
+    provider.setCustomParameters({
+      prompt: "select_account"
+    });
+    
+    firebase.auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        return result.user.getIdToken();
+      })
+      .then((idToken) => {
+        return fetch("/sessionLogin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken: idToken }),
+        });
+      })
+      .then((response) => {
+        if (response.ok) {
+          showToast("Login with Microsoft successful!", "success");
+          setTimeout(() => {
+            window.location.assign("/");
+          }, 1500);
+        } else {
+          showToast("Session login failed.", "error");
+        }
+      })
+      .catch((error) => {
+        console.error("Error during Microsoft sign-in:", error);
+        showToast("Error during Microsoft sign-in: " + error.message, "error");
+      });
+  }
     </script>
   </head>
   <body>
@@ -253,7 +307,6 @@
         </li>
       </ul>
       <div class="tab-content" id="authTabContent">
-        <!-- Login Form -->
         <div
           class="tab-pane fade show active"
           id="login"
@@ -280,7 +333,6 @@
           </div>
           <button class="btn btn-custom" onclick="signIn()">Sign In</button>
         </div>
-        <!-- Sign Up Form -->
         <div
           class="tab-pane fade"
           id="signup"
@@ -318,7 +370,6 @@
         </div>
       </div>
       <hr />
-      <!-- Google Sign In -->
       <div class="text-center">
         <p>or sign in with</p>
         <button class="btn btn-outline-secondary" onclick="googleSignIn()">
@@ -329,9 +380,25 @@
           />
           Google
         </button>
+        <button class="btn btn-outline-secondary" onclick="githubSignIn()">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+            alt="GitHub Logo"
+            style="width:16px; margin-right:5px;"
+          />
+          GitHub
+        </button>
+
+        <button class="btn btn-outline-secondary" onclick="microsoftSignIn()">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/2/25/Microsoft_icon.svg"
+            alt="Microsoft Logo"
+            style="width:16px; margin-right:5px;"
+          />
+          Microsoft
+        </button>
       </div>
     </div>
-    <!-- Toast Container -->
     <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
   </body>
 </html>

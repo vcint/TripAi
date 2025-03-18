@@ -2,72 +2,124 @@
 <%- include('partials/navbar'); %>
 
 <style>
-  /* Warm gradient background */
+  /* Google Font */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
   body {
-    background: linear-gradient(135deg, #ff7e5f, #feb47b);
-    font-family: 'Segoe UI', sans-serif;
-    min-height: 100vh;
-    margin: 0;
-    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+    background-color: #F7F9FC;
+    color: #1D3557;
+    padding-top: 80px; 
   }
-  /* Main container styled as a modern card */
+
   .main-container {
     background-color: #fff;
     padding: 2.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     max-width: 800px;
-    margin: auto;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    width: 100%;
+    margin: 0 auto 2rem auto; 
   }
-  /* Headings styling */
+
+  
   h1 {
-    color: #d35400;  /* Dark orange */
-    font-weight: bold;
+    color: #1D3557;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 1.5rem;
   }
-  /* Form labels */
+
   .form-group label {
     font-weight: 600;
     color: #333;
   }
-  /* Modern rounded inputs */
+
+  
   .form-control {
-    border-radius: 50px;
-    padding: 0.75rem 1rem;
+    border-radius: 8px;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
     font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
   }
-  /* Updated select styling to reduce congestion */
+
   select.form-control {
-    padding: 0.75rem 1.25rem;
+   
     font-size: 1rem;
-    line-height: 1.5;
-    height: auto;  /* Override any fixed height issues */
+    color: #333; 
+    background-color: #fff; 
+    appearance: none; 
+    -webkit-appearance: none; 
+    -moz-appearance: none;
   }
-  /* Custom button style matching new aesthetics */
+
+  select.form-control::after {
+    content: '\25BC'; 
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
   .btn-custom {
-    background: #d35400; /* Dark orange */
+    background:  #FF6B35;
     color: #fff;
     border: none;
-    border-radius: 50px;
+    border-radius: 8px;
     padding: 0.75rem 1.5rem;
     font-weight: 600;
-    transition: background 0.3s;
+    transition: background 0.3s ease-in-out;
+    width: 100%;
   }
+
   .btn-custom:hover {
-    background: #e67e22;
+    background-color: #E65A2D;
+    transform: scale(1.05);
   }
-  /* Style for input group buttons */
+
   .btn-outline-secondary {
-    border-radius: 50px;
+    border-radius: 8px;
+    border-color: #E65A2D;
+    color: #E65A2D;
+    padding: 0.5rem 1rem; 
   }
-  /* Adjust spacing for the container inside the form */
-  .needs-validation .form-group {
-    margin-bottom: 1.5rem;
+
+  .btn-outline-secondary:hover {
+    background: #E65A2D;
+    color: white;
+  }
+
+  .form-check-input:checked {
+    background-color:#E65A2D;
+    border-color: #E65A2D;
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .input-group button {
+    flex: 0 0 auto;
+  }
+
+  .input-group input {
+    flex: 1 1 auto;
+    text-align: center;
   }
 </style>
+<script>
+  function normalizeInputs() {
+    const originInput = document.getElementById("origin");
+    const destinationInput = document.getElementById("destination");
+    if (originInput) originInput.value = originInput.value.trim().toLowerCase();
+    if (destinationInput) destinationInput.value = destinationInput.value.trim().toLowerCase();
+  }
+</script>
 
 <div class="main-container">
   <% if (messages.error) { %>
@@ -77,32 +129,29 @@
     <div class="alert alert-success"><%= messages.success %></div>
   <% } %>
 
-  <h1 class="text-center mb-4">Plan Your Next Adventure</h1>
+  <h1>Plan Your Next Adventure</h1>
 
   <form action="/plantrip" method="POST" class="needs-validation" novalidate>
     <div class="row justify-content-center">  
       <div class="col-md-10"> 
         <div class="form-group">
           <label for="origin">Origin</label>
-          <input type="text" class="form-control" id="origin" name="origin" placeholder="e.g., JFK" required>
-          <div class="invalid-feedback">Please provide a valid origin.</div>
+          <input type="text" class="form-control" id="origin" name="origin" placeholder="e.g., New York" required>
         </div>
 
         <div class="form-group">
           <label for="destination">Destination</label>
-          <input type="text" class="form-control" id="destination" name="destination" placeholder="e.g., LAX" required>
-          <div class="invalid-feedback">Please provide a valid destination.</div>
+          <input type="text" class="form-control" id="destination" name="destination" placeholder="e.g., Paris" required>
         </div>
 
         <div class="form-group">
           <label for="departureDate">Departure Date</label>
-          <input type="date" class="form-control" id="departureDate" name="departureDate" required>
-          <div class="invalid-feedback">Please provide a departure date.</div>
+          <input type="date" class="form-control" id="departureDate" name="departureDate" onfocus="this.showPicker()" required>
         </div>
 
         <div class="form-group">
-          <label for="travelDays">How many days are you planning to travel?</label>
-          <div class="input-group travel-days-input-group">
+          <label for="travelDays">Number of Travel Days</label>
+          <div class="input-group">
             <button class="btn btn-outline-secondary" type="button" id="decrementDays">-</button>
             <input type="number" class="form-control" id="travelDays" name="travelDays" value="1" min="1" max="30">
             <button class="btn btn-outline-secondary" type="button" id="incrementDays">+</button>
@@ -110,7 +159,7 @@
         </div>
 
         <div class="form-group">
-          <label for="budget">What is your budget for the trip?</label>
+          <label for="budget">Budget</label>
           <select class="form-control" id="budget" name="budget">
             <option value="low">Low</option>
             <option value="medium">Medium</option>
@@ -119,7 +168,7 @@
         </div>
 
         <div class="form-group">
-          <label for="travelCompanion">Who do you plan on traveling with on your next adventure?</label>
+          <label for="travelCompanion">Who are you traveling with?</label>
           <select class="form-control" id="travelCompanion" name="travelCompanion">
             <option value="solo">Solo</option>
             <option value="couple">Couple</option>
@@ -129,39 +178,31 @@
         </div>
 
         <div class="form-group">
-          <label for="activities">Which activities are you interested in?</label>
+          <label>Preferred Activities</label>
           <div> 
             <div class="form-check">
               <input class="form-check-input" type="checkbox" id="beaches" name="activities[]" value="beaches">
               <label class="form-check-label" for="beaches">Beaches</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="citySightseeing" name="activities[]" value="citySightseeing">
-              <label class="form-check-label" for="citySightseeing">City Sightseeing</label>
+              <input class="form-check-input" type="checkbox" id="sightseeing" name="activities[]" value="sightseeing">
+              <label class="form-check-label" for="sightseeing">Sightseeing</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="outdoorAdventure" name="activities[]" value="outdoorAdventure">
-              <label class="form-check-label" for="outdoorAdventure">Outdoor Adventure</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="festivalEvents" name="activities[]" value="festivalEvents">
-              <label class="form-check-label" for="festivalEvents">Festival/Events</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="foodExploration" name="activities[]" value="foodExploration">
-              <label class="form-check-label" for="foodExploration">Food Exploration</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="nightlife" name="activities[]" value="nightlife">
-              <label class="form-check-label" for="nightlife">Nightlife</label>
+              <input class="form-check-input" type="checkbox" id="food" name="activities[]" value="food">
+              <label class="form-check-label" for="food">Food & Dining</label>
             </div>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" id="shopping" name="activities[]" value="shopping">
               <label class="form-check-label" for="shopping">Shopping</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="spaWellness" name="activities[]" value="spaWellness">
-              <label class="form-check-label" for="spaWellness">Spa & Wellness</label>
+              <input class="form-check-input" type="checkbox" id="Adventure" name="activities[]" value="Adventure">
+              <label class="form-check-label" for="Adventure">Adventure</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="Religious" name="activities[]" value="Religious">
+              <label class="form-check-label" for="Religious">Religious</label>
             </div>
           </div>
         </div>
@@ -175,3 +216,15 @@
 </div>
 
 <%- include('partials/footer'); %>
+
+<script>
+  document.getElementById("decrementDays").addEventListener("click", function () {
+    let input = document.getElementById("travelDays");
+    if (input.value > 1) input.value--;
+  });
+
+  document.getElementById("incrementDays").addEventListener("click", function () {
+    let input = document.getElementById("travelDays");
+    if (input.value < 30) input.value++;
+  });
+</script>

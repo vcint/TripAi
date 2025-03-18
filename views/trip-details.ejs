@@ -1,0 +1,20 @@
+<%- include('partials/header'); %>
+<%- include('partials/navbar'); %>
+
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Trip Details</h1>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title"><%= trip.destination %></h5>
+      <p class="card-text"><strong>Origin:</strong> <%= trip.origin %></p>
+      <p class="card-text"><strong>Budget:</strong> <%= trip.budget %></p>
+      <p class="card-text"><strong>Interests:</strong> <%= trip.interests.join(', ') %></p>
+      <p class="card-text"><strong>Travel Dates:</strong> <%= trip.travelDates.map(date => new Date(date).toLocaleDateString()).join(', ') %></p>
+      <p class="card-text"><strong>Total Cost Estimate:</strong> ₹<%= trip.totalCostEstimate %></p>
+      <h5 class="mt-4">Trip Plan</h5>
+      <pre><%= trip.responseSummary %></pre>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer'); %>
