@@ -10,7 +10,7 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const { Cashfree } = require("cashfree-pg");
 const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 const axios = require("axios");
 const redis = require('redis');
 const { generateRecommendations } = require('./recommendations');
