@@ -20,7 +20,7 @@ const Trip = require('./models/Trip');
 
 const RedisStore = require('connect-redis').default;
 const redisClient = redis.createClient({
-  url: process.env.REDIS_URL || 'redis://localhost:6379'
+  url: process.env.REDIS_URL
 });
 
 mongoose.connect(process.env.MONGO_URI, {
@@ -46,7 +46,7 @@ const replicateClient = new replicate({
 
 Cashfree.XClientId = process.env.CASHFREE_APP_ID;
 Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+Cashfree.XEnvironment = process.env.XEnvironment;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
