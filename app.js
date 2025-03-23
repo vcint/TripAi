@@ -46,7 +46,7 @@ const replicateClient = new replicate({
 
 Cashfree.XClientId = process.env.CASHFREE_APP_ID;
 Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment = process.env.XEnvironment;
+Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
