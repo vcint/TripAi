@@ -63,21 +63,22 @@ TripAi is a powerful AI-based travel planning web application that helps users e
    Create a `.env` file in the root directory and add the following:
 
    ```env
-   SESSION_SECRET=your_Session_SECRET
-   MONGO_URI=your_mongodb_connection_string
-   REDIS_URL=your_redis_url
+   SESSION_SECRET=Anything
+   REPLICATE_API_TOKEN=get htis token from https://replicate.com/meta/meta-llama-3-8b-instruct
+   AMADEUS_API_KEY=get this from https://developers.amadeus.com/
+   AMADEUS_API_SECRET==also from https://developers.amadeus.com/
+   #cashfree
+   CASHFREE_APP_ID=get this from https://www.cashfree.com/
+   CASHFREE_SECRET_KEY=same fro https://www.cashfree.com/
+   CASHFREE_ENV=PRODUCTION
+   BASE_URL=http://localhost:3000
+   XEnvironment=Cashfree.Environment.PRODUCTION;
+   NODE_ENV=PRODUCTION
+   MONGO_URI=Your MongoDb Url from localhost 
+   REDIS_URL=Redi Database Url
    REDIS_USER=
    REDIS_PASSWORD=
-   FIREBASE_CONFIG=your_firebase_config_json
-   LLM_API_KEY=your_meta_llama_api_key
-   AMADEUS_API_KEY=your_amadeus_key
-   AMADEUS_API_SECRET=your_amadeus_secret
-   CASHFREE_APP_ID=your_cashfree_app_id
-   CASHFREE_SECRET_KEY=your_cashfree_secret
-   CASHFREE_ENV=
-   BASE_URL=
-   XEnvironment=
-   FIREBASE_SERVICE_ACCOUNT=
+   FIREBASE_SERVICE_ACCOUNT={Get this from console.firebase.google.com}
    ```
 
 4. **Start the server:**
