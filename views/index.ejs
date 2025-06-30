@@ -272,7 +272,7 @@
       return;
     }
     try {
-      const res = await fetch(`http://localhost:3000/city-suggestions?q=${encodeURIComponent(query)}`);
+      const res = await fetch(`/city-suggestions?q=${encodeURIComponent(query)}`);
       const cities = await res.json();
       if (input.value.trim().length < 2 || input.value.trim() !== query) {
         suggestions.innerHTML = '';
