@@ -67,17 +67,7 @@
       }
     </style>
     <script>
-      // Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyBQJmaE3Dg86tOX4wGIxJ4oBOUBbVyzleI",
-        authDomain: "tripai-4dec0.firebaseapp.com",
-        projectId: "tripai-4dec0",
-        storageBucket: "tripai-4dec0.firebasestorage.app",
-        messagingSenderId: "566506076431",
-        appId: "1:566506076431:web:6c8d845668cf08965fa67a",
-        measurementId: "G-HJ19MJJCMP",
-      };
-      
+      const firebaseConfig = <%- JSON.stringify(firebaseConfig) %>;
       const app = firebase.initializeApp(firebaseConfig);
 
       function showToast(message, type) {

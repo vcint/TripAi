@@ -104,7 +104,11 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => res.render('home'));
-app.get("/login", (req, res) => res.render("login"));
+app.get("/login", (req, res) => {
+  res.render("login", {
+    firebaseConfig: JSON.parse(process.env.FIREBASE_CONFIG)
+  });
+});
 
 app.post("/sessionLogin", (req, res) => {
   const idToken = req.body.idToken;
@@ -417,6 +421,18 @@ app.get('/secure-trip-plan', checkAuth, (req, res) => {
   }
 });
 
+app.get('/city-suggestions', async (req, res) => {
+  const query = req.query.q;
+  if (!query) return res.json([]);
+  try {
+    const suggestions = await getCitySuggestions(query);
+    res.json(suggestions);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json([]);
+  }
+});
+
 async function generateTripPlan(destination, duration, budget, travelCompanion) {
   try {
     const prompt = `Generate a detailed ${duration}-day trip plan for ${destination} with ${travelCompanion} and with a ${budget} budget. Include specific details like transportation, accommodation, and activities. Provide a step-by-step plan for each day, including times and locations.\n\n**Instructions:**\n* Use <day day="N"> tags for each day.\n* Within each <day>, use <section name="Section Name"> tags.\n* Describe activities in plain text within <section> tags.\n* No extra whitespace or line breaks within tags.\n\n`;
@@ -480,6 +496,23 @@ async function getFlightOffers(origin, destination, departureDate) {
     return response.data || [];
   } catch (error) {
     console.error("Flight error:", error);
+    return [];
+  }
+}
+
+async function getCitySuggestions(citySearch) {
+  try {
+    const response = await amadeus.referenceData.locations.get({
+      keyword: citySearch,
+      subType: 'CITY'
+    });
+    const locations = response.data || [];
+    return locations.map(loc => ({
+      name: loc.address.cityName,
+      iataCode: loc.iataCode
+    }));
+  } catch (error) {
+    console.error("City suggestions lookup error:", error);
     return [];
   }
 }
