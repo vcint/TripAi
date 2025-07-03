@@ -96,12 +96,6 @@ TripAi is a powerful AI-based travel planning web application that helps users e
 
 ---
 
-## 🧑‍💻 Contributors
-
-- [Vinay Chitade](https://github.com/vcint)
-
----
-
 ## 📄 License
 
 This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
