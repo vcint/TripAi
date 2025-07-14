@@ -165,17 +165,19 @@
       <div class="col-md-10"> 
         <div class="form-group city-input-group">
           <label for="origin">Origin</label>
-          <input type="text" class="form-control" id="origin" name="origin" 
+          <input type="text" class="form-control" id="origin" name="originDisplay" 
             placeholder="e.g., New York" autocomplete="off" 
             oninput="handleInputSuggestions(event)" onblur="hideSuggestions()" required>
+          <input type="hidden" id="originCode" name="origin">
           <ul id="origin-suggestions" class="suggestions-list"></ul>
         </div>
 
         <div class="form-group city-input-group">
           <label for="destination">Destination</label>
-          <input type="text" class="form-control" id="destination" name="destination" 
+          <input type="text" class="form-control" id="destination" name="destinationDisplay" 
             placeholder="e.g., Paris" autocomplete="off" 
             oninput="handleInputSuggestions(event)" onblur="hideSuggestions()" required>
+          <input type="hidden" id="destinationCode" name="destination">
           <ul id="destination-suggestions" class="suggestions-list"></ul>
         </div>
 
@@ -283,7 +285,10 @@
         const li = document.createElement('li');
         li.textContent = `${city.name} (${city.iataCode})`;
         li.addEventListener('click', () => {
-          input.value = city.iataCode;
+          input.value = li.textContent;
+          const hiddenInputId = input.id + 'Code'; 
+          const hiddenInput = document.getElementById(hiddenInputId);
+          hiddenInput.value = city.iataCode;
           suggestions.innerHTML = '';
         });
         suggestions.appendChild(li);
