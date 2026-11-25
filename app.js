@@ -134,7 +134,7 @@ function checkAuth(req, res, next) {
   next();
 }
 
-app.post("/plantrip", async (req, res) => {
+app.post("/plantrip", checkAuth, async (req, res) => {
   const { origin, destination, departureDate, travelDays, budget, travelCompanion } = req.body;
 
   if (!origin || !destination || !departureDate || !travelDays || !budget || !travelCompanion) {
@@ -237,7 +237,11 @@ res.render('my-trips', { trips, recommendations });
 
 app.get('/trip/:id', checkAuth, async (req, res) => {
   try {
-    const trip = await Trip.findById(req.params.id);
+    // Only return the trip if it belongs to the signed-in user. Malformed ids,
+    // missing trips, and other users' trips all get the same "not found".
+    const trip = mongoose.isValidObjectId(req.params.id)
+      ? await Trip.findOne({ _id: req.params.id, userId: req.session.user.uid })
+      : null;
     if (!trip) {
       req.flash('error', 'Trip not found');
       return res.redirect('/my-trips');
